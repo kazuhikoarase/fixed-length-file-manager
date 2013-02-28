@@ -148,13 +148,16 @@ public class MainFrame extends JFrame {
 		iframe.setResizable(true);
 		iframe.setMaximizable(true);
 		iframe.setClosable(true);
-		iframe.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		//TODO
+		//iframe.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		iframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		iframe.getContentPane().add(tabbedPane);
 		iframe.setSize(400, 300);
 		iframe.setVisible(true);
 		
 		desktop.add(iframe);
-	
+
+		iframe.toFront();
 	}
 	
 	private void exit() {
