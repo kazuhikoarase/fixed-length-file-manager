@@ -32,9 +32,12 @@ import flfm.model.Record;
 public class MainFrame extends JFrame {
 	
 	private JDesktopPane desktop;
+
+	private JFileChooser chooser = new JFileChooser();
 	
 	public MainFrame() throws Exception {
-	
+
+		setTitle("FLFM");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		addWindowListener(new WindowAdapter() {
@@ -77,8 +80,6 @@ public class MainFrame extends JFrame {
 		getContentPane().add(desktop);
 	}
 
-	JFileChooser chooser = new JFileChooser();
-	
 	private void open() throws Exception {
 
 		chooser.setCurrentDirectory(new File("sample") );
