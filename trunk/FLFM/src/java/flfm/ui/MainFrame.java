@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import flfm.core.Config;
 import flfm.model.Record;
@@ -33,7 +34,7 @@ public class MainFrame extends JFrame {
 	
 	private JDesktopPane desktop;
 
-	private JFileChooser chooser = new JFileChooser();
+	private JFileChooser chooser;
 	
 	public MainFrame() throws Exception {
 
@@ -78,12 +79,13 @@ public class MainFrame extends JFrame {
 
 		desktop = new JDesktopPane();
 		getContentPane().add(desktop);
+
+		chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("sample") );
 	}
 
 	private void open() throws Exception {
 
-		chooser.setCurrentDirectory(new File("sample") );
-//		chooser.setSelectedFile(root);
 		int ret = chooser.showOpenDialog(this);
 		if (ret != JFileChooser.APPROVE_OPTION) {
 			return;
@@ -120,8 +122,10 @@ public class MainFrame extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-		for (Record record : si.getRecordList() ) {
-		
+		for (int r = 0; r < si.getRecordList().size(); r += 1) {
+
+			Record record = si.getRecordList().get(r);
+			
 			RecordEditor editor = new RecordEditor();
 			editor.setModel(record.getRecordDef() );
 			
@@ -130,17 +134,21 @@ public class MainFrame extends JFrame {
 				tf.setText(record.getDataList().get(i) );
 				tf.select(0, 0);
 			}
-			
+
 			JPanel panel = new JPanel();
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT) );
 			panel.add(editor);
-			tabbedPane.add(record.getRecordDef().getName(),
+			tabbedPane.add(
+				"[" + (r + 1) + "] " + 
+					record.getRecordDef().getName().replaceAll("\\..*$", ""),
 				new JScrollPane(panel) );
 		}
 
 		JInternalFrame iframe = new JInternalFrame(selectedFile.getName() );
 		iframe.setResizable(true);
 		iframe.setMaximizable(true);
+		iframe.setClosable(true);
+		iframe.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		iframe.getContentPane().add(tabbedPane);
 		iframe.setSize(400, 300);
 		iframe.setVisible(true);
