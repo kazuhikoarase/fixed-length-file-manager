@@ -1,0 +1,10 @@
+{name: 21, comment: 1, type: 16, size: 17}
+1	取引先コード															Z	8			説明ですよ	CUST_CD
+2	取引先名															Z	30				CUST_NAME
+3	電話番号															Z	20				TEL
+4	住所１															Z	30				ADDR1
+5	住所２															Z	30				ADDR2
+6	発行日 - 元号															Z	1				ISSUE_G
+7	発行日 - 年															Z	2				ISSUE_Y
+8	発行日 - 月															Z	2				ISSUE_M
+9	発行日 - 日															Z	2				ISSUE_D
