@@ -23,7 +23,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
+import flfm.core.Config;
 import flfm.model.Record;
 
 @SuppressWarnings("serial")
@@ -87,7 +89,8 @@ public class MainFrame extends JFrame {
 		}
 
 		File selectedFile = chooser.getSelectedFile();
-		File mainJs = new File(selectedFile.getParentFile(), "assets/main.js");
+		File mainJs = new File(new File(selectedFile.getParentFile(),
+				Config.getInstance().getAssetsFolderName() ), "main.js");
 		
 		ScriptInterfaceImpl si = new ScriptInterfaceImpl(selectedFile);
 		
@@ -97,7 +100,8 @@ public class MainFrame extends JFrame {
 	        ScriptEngine engine = manager.getEngineByName("ECMAScript");
 
 			Reader in = new BufferedReader(new InputStreamReader(
-					new FileInputStream(mainJs), "MS932") );
+					new FileInputStream(mainJs), 
+					Config.getInstance().getResourceEncoding() ) );
 			try {
 				engine.put(ScriptEngine.FILENAME, mainJs.getAbsolutePath() );
 				engine.put("si", si);
@@ -119,7 +123,13 @@ public class MainFrame extends JFrame {
 		
 			RecordEditor editor = new RecordEditor();
 			editor.setModel(record.getRecordDef() );
-
+			
+			for (int i = 0; i < record.getDataList().size(); i += 1) {
+				JTextField tf = editor.getFieldEditorAt(i);
+				tf.setText(record.getDataList().get(i) );
+				tf.select(0, 0);
+			}
+			
 			JPanel panel = new JPanel();
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT) );
 			panel.add(editor);

@@ -18,8 +18,6 @@ import flfm.model.RecordDef;
 @SuppressWarnings("serial")
 public class RecordEditor extends JComponent {
 
-	private static final String ENCODING = "MS932";
-	
 	private RecordDef model;
 	private List<JTextField> fieldEditors;
 	
@@ -70,7 +68,7 @@ public class RecordEditor extends JComponent {
 		JTextField tf = new JTextField(fd.getSize() );
 		tf.setFont(new Font("monospaced", Font.PLAIN, 12) );
 		((PlainDocument)tf.getDocument() ).setDocumentFilter(
-			new NumBytesInputFilter(ENCODING, fd.getSize() ) );
+			new NumBytesInputFilter(model.getEncoding(), fd.getSize() ) );
 		tf.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 				JTextField tf = (JTextField)e.getSource();

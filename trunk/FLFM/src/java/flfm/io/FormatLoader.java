@@ -10,21 +10,21 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import flfm.core.Config;
 import flfm.core.Util;
 import flfm.model.FieldDef;
 import flfm.model.RecordDef;
 
 public class FormatLoader {
-	
-	private static final String ENCODING = "MS932";
-	
+
 	public FormatLoader() {
 	}
 
 	public RecordDef load(File file) throws Exception {
 
 		BufferedReader in = new BufferedReader(
-			new InputStreamReader(new FileInputStream(file), ENCODING) );
+			new InputStreamReader(new FileInputStream(file), 
+				Config.getInstance().getResourceEncoding() ) );
 		try {
 
 			// フォーマット読み込み
@@ -36,6 +36,8 @@ public class FormatLoader {
 			int commentIndex = ( (Double)engine.eval("opts.comment") ).intValue();
 			int typeIndex = ( (Double)engine.eval("opts.type") ).intValue();
 			int sizeIndex = ( (Double)engine.eval("opts.size") ).intValue();
+			//TODO
+			String encoding = Config.getInstance().getResourceEncoding();
 			
 			List<FieldDef> fields = new ArrayList<FieldDef>();
 
@@ -56,6 +58,7 @@ public class FormatLoader {
 		
 			RecordDef rd = new RecordDef();
 			rd.setName(file.getName() );
+			rd.setEncoding(encoding);
 			rd.setFields(fields);
 			return rd;
 

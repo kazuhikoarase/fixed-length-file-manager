@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import flfm.core.Config;
 import flfm.io.FormatLoader;
 import flfm.model.FieldDef;
 import flfm.model.Record;
@@ -35,8 +36,9 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	
 	public Map<String, String> read(String formatFile) throws Exception {
 
-		File assetsDir = new File(selectedFile.getParent(), "assets");
-		File file = new File(assetsDir, formatFile);
+		File assetsFolder = new File(selectedFile.getParent(), 
+				Config.getInstance().getAssetsFolderName() );
+		File file = new File(assetsFolder, formatFile);
 		RecordDef rd = new FormatLoader().load(file);
 
 		Map<String,String> map = new HashMap<String, String>();
@@ -44,7 +46,7 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 		for (FieldDef field : rd.getFields() ) {
 			byte[] b = new byte[field.getSize()];
 			raf.readFully(b);
-			String data = new String(b, "MS932");
+			String data = new String(b, rd.getEncoding() );
 			map.put(field.getName(), data);
 			dataList.add(data);
 		}
