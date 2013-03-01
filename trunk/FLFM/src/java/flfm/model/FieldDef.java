@@ -1,5 +1,9 @@
 package flfm.model;
 
+/**
+ * FieldDef
+ * @author Kazuhiko Arase
+ */
 public class FieldDef {
 	private String name;
 	private String comment;

@@ -1,5 +1,9 @@
 package flfm.core;
 
+/**
+ * Config
+ * @author Kazuhiko Arase
+ */
 public class Config {
 
 	private static final Config instance = new Config();

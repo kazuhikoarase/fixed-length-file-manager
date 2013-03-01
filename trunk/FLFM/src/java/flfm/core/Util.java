@@ -3,6 +3,10 @@ package flfm.core;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Util
+ * @author Kazuhiko Arase
+ */
 public class Util {
 	private Util() {
 	}

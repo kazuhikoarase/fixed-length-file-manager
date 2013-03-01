@@ -2,6 +2,10 @@ package flfm.model;
 
 import java.util.List;
 
+/**
+ * RecordDef
+ * @author Kazuhiko Arase
+ */
 public class RecordDef {
 	private String name;
 	private String encoding;

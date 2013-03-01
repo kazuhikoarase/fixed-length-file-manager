@@ -5,6 +5,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
+/**
+ * RecordEditorLayout
+ * @author Kazuhiko Arase
+ */
 public class RecordEditorLayout implements LayoutManager {
 
 	/**
