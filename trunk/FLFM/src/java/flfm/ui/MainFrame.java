@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileFilter;
 
 import flfm.core.Config;
 import flfm.model.Record;
@@ -82,6 +83,24 @@ public class MainFrame extends JFrame {
 
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File("sample") );
+		chooser.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return "Fixed Length File";
+			}
+			
+			@Override
+			public boolean accept(File file) {
+				if (file.getName().startsWith(".") ) {
+					return false;
+				} else if (file.getName().equals(
+						Config.getInstance().getSystemFolderName() ) ) {
+					return false;
+				}
+				return true;
+			}
+		} );
 	}
 
 	private void open() throws Exception {
