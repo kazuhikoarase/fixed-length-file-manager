@@ -127,3 +127,7 @@ FLFM.jar をダブルクリックしてアプリケーションを起動しま�
 {{{
 java -jar FLFM.jar
 }}}
+
+http://fixed-length-file-manager.googlecode.com/svn/assets/files.png
+
+http://fixed-length-file-manager.googlecode.com/svn/assets/FLFM.png
