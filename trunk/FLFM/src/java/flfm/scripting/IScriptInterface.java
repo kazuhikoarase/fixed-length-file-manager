@@ -9,14 +9,14 @@ import java.util.Map;
 public interface IScriptInterface {
 
 	/**
-	 * データを読み込む
+	 * 指定されたフォーマットのレコードを読み込む
 	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
 	public Map<String, String> readRecord(String recordFormatFile) throws Exception;
 
 	/**
-	 * データを読み込む(ファイルの読み取り位置は変わりません)
+	 * 指定されたフォーマットのレコードを読み込む(ファイルの読み取り位置は変わりません)
 	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
@@ -29,14 +29,14 @@ public interface IScriptInterface {
 	public long getLength() throws Exception;
 
 	/**
-	 * 読み込み位置を取得する
-	 * @return 読み込み位置
+	 * 読み取り位置を取得する
+	 * @return 読み取り位置
 	 */
 	public long getPosition() throws Exception;
 	
 	/**
-	 * 読み込み位置を設定する
-	 * @param position 読み込み位置
+	 * 読み取り位置を設定する
+	 * @param position 読み取り位置
 	 */
 	public void setPosition(long position) throws Exception;
 
