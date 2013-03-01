@@ -9,16 +9,16 @@ import java.util.Map;
 public interface IScriptInterface {
 
 	/**
-	 * データの読み込みを試みる(ファイルの読み取り位置は変わりません)
-	 * @param formatFile フォーマットファイル
+	 * データを読み込む
+	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
-	public Map<String, String> tryRead(String formatFile) throws Exception;
+	public Map<String, String> readRecord(String recordFormatFile) throws Exception;
 
 	/**
-	 * データを読み込みこむ
-	 * @param formatFile フォーマットファイル
+	 * データを読み込む(ファイルの読み取り位置は変わりません)
+	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
-	public Map<String, String> read(String formatFile) throws Exception;
+	public Map<String, String> peekRecord(String recordFormatFile) throws Exception;
 }

@@ -34,11 +34,23 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	public void dispose() throws Exception {
 		raf.close();
 	}
+
 	public List<Record> getRecordList() {
 		return recordList;
 	}
 	
-	public Map<String, String> read(String formatFile) throws Exception {
+	public Map<String, String> readRecord(String formatFile) throws Exception {
+		return readImpl(formatFile, false);
+	}
+
+	public Map<String, String> peekRecord(String formatFile) throws Exception {
+		return readImpl(formatFile, true);
+	}
+
+	private Map<String, String> readImpl(String formatFile, boolean peek)
+	throws Exception {
+
+		long pos = raf.getFilePointer();
 
 		File assetsFolder = new File(selectedFile.getParent(), 
 				Config.getInstance().getSystemFolderName() );
@@ -54,19 +66,16 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 			map.put(field.getName(), data);
 			dataList.add(data);
 		}
-		
-		Record record = new Record();
-		record.setRecordDef(rd);
-		record.setDataList(dataList);
-		recordList.add(record);
-		
-		return map;
-	}
 
-	public Map<String, String> tryRead(String formatFile) throws Exception {
-		long pos = raf.getFilePointer();
-		Map<String, String> map = read(formatFile);
-		raf.seek(pos);
+		if (!peek) {
+			Record record = new Record();
+			record.setRecordDef(rd);
+			record.setDataList(dataList);
+			recordList.add(record);
+		} else {
+			raf.seek(pos);
+		}
+		
 		return map;
 	}
 }
