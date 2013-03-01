@@ -13,6 +13,15 @@
 		<property name="app.name" value="FLFM-v${timestamp}" />
 		<property name="jar.name" value="FLFM.jar" />
 		
+		<javadoc 
+			packagenames="flfm.scripting.*"
+			encoding="MS932"
+			docencoding="UTF-8"
+			charset="UTF-8"
+			sourcepath="${src}/java" 
+			destdir="${dist}/apidocs" author="false">
+		</javadoc>
+			
 		<jar jarfile="${dist}/${jar.name}" 
 				manifest="${src}/assets/MANIFEST.MF">
 			<fileset dir="${build}/java">

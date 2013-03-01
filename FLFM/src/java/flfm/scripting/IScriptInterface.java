@@ -21,4 +21,28 @@ public interface IScriptInterface {
 	 * @return 読み込んだデータ
 	 */
 	public Map<String, String> peekRecord(String recordFormatFile) throws Exception;
+
+	/**
+	 * ファイルサイズを取得する。
+	 * @return
+	 */
+	public long getLength() throws Exception;
+
+	/**
+	 * 読み込み位置を取得する
+	 * @return 読み込み位置
+	 */
+	public long getPosition() throws Exception;
+	
+	/**
+	 * 読み込み位置を設定する
+	 * @param position 読み込み位置
+	 */
+	public void setPosition(long position) throws Exception;
+
+	/**
+	 * ファイルの終端かどうかを取得する。
+	 * @return
+	 */
+	public boolean isEOF() throws Exception;
 }

@@ -35,6 +35,22 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 		raf.close();
 	}
 
+	public long getLength() throws Exception {
+		return raf.length();
+	}
+
+	public long getPosition() throws Exception {
+		return raf.getFilePointer();
+	}
+	
+	public void setPosition(long position) throws Exception {
+		raf.seek(position);
+	}
+	
+	public boolean isEOF() throws Exception {
+		return !(getPosition() < getLength() );
+	}
+
 	public List<Record> getRecordList() {
 		return recordList;
 	}
