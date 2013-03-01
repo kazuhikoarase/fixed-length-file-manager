@@ -7,6 +7,7 @@ package flfm.model;
 public class FieldDef {
 	private String name;
 	private String comment;
+	private String description;
 	private String type;
 	private int size;
 	public FieldDef() {
@@ -22,6 +23,12 @@ public class FieldDef {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getType() {
 		return type;
