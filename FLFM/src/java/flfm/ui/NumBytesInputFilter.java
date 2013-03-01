@@ -5,6 +5,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * NumBytesInputFilter
+ * @author Kazuhiko Arase
+ */
 public class NumBytesInputFilter extends DocumentFilter {
 	
 	private final String enc;

@@ -2,6 +2,10 @@ package flfm.model;
 
 import java.util.List;
 
+/**
+ * Record
+ * @author Kazuhiko Arase
+ */
 public class Record {
 	private RecordDef recordDef;
 	private List<String> dataList;

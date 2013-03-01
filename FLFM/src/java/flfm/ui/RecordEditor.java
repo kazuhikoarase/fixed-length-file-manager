@@ -15,6 +15,10 @@ import javax.swing.text.PlainDocument;
 import flfm.model.FieldDef;
 import flfm.model.RecordDef;
 
+/**
+ * RecordEditor
+ * @author Kazuhiko Arase
+ */
 @SuppressWarnings("serial")
 public class RecordEditor extends JComponent {
 

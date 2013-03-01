@@ -14,6 +14,10 @@ import flfm.model.Record;
 import flfm.model.RecordDef;
 import flfm.scripting.IScriptInterface;
 
+/**
+ * ScriptInterfaceImpl
+ * @author Kazuhiko Arase
+ */
 public class ScriptInterfaceImpl implements IScriptInterface {
 
 	private File selectedFile;

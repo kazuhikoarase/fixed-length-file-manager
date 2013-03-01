@@ -30,6 +30,10 @@ import javax.swing.filechooser.FileFilter;
 import flfm.core.Config;
 import flfm.model.Record;
 
+/**
+ * MainFrame
+ * @author Kazuhiko Arase
+ */
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	

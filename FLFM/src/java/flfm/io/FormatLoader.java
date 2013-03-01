@@ -15,6 +15,10 @@ import flfm.core.Util;
 import flfm.model.FieldDef;
 import flfm.model.RecordDef;
 
+/**
+ * FormatLoader
+ * @author Kazuhiko Arase
+ */
 public class FormatLoader {
 
 	public FormatLoader() {

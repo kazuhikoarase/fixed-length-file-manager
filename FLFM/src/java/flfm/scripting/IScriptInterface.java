@@ -2,6 +2,10 @@ package flfm.scripting;
 
 import java.util.Map;
 
+/**
+ * スクリプトインタフェース
+ * @author Kazuhiko Arase
+ */
 public interface IScriptInterface {
 
 	/**
