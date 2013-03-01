@@ -1,0 +1,11 @@
+{name: 21, comment: 1, type: 16, size: 17}
+1	ファイル種別															Z	1			H:ヘッダ/D:データ/F:フッタ	FILE_TYPE
+2	取引先コード															Z	8				CUST_CD
+3	取引先名															Z	30				CUST_NAME
+4	電話番号															Z	20				TEL
+5	住所１															Z	30				ADDR1
+6	住所２															Z	30				ADDR2
+7	発行日 - 元号															Z	1				ISSUE_G
+8	発行日 - 年															Z	2				ISSUE_Y
+9	発行日 - 月															Z	2				ISSUE_M
+10	発行日 - 日															Z	2				ISSUE_D

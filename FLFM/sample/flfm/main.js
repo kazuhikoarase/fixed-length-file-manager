@@ -1,6 +1,6 @@
-//
-//
+// 固定長ファイルを読み込むスクリプトです。
 
-si.read("フォーマット定義1.txt");
-si.read("フォーマット定義2.txt");
-si.read("フォーマット定義1.txt");
+si.read('ヘッダ.txt');
+si.read('データ1.txt');
+si.read('データ2.txt');
+si.read('フッタ.txt');
