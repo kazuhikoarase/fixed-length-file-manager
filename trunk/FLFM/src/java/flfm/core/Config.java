@@ -11,9 +11,10 @@ public class Config {
 	private Config() {
 	}
 	
-	public String getAssetsFolderName() {
-		return "assets";
+	public String getSystemFolderName() {
+		return "flfm";
 	}
+	
 	public String getResourceEncoding() {
 		return "MS932";
 	}

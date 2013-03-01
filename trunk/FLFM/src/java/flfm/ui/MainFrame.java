@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
 
 		File selectedFile = chooser.getSelectedFile();
 		File mainJs = new File(new File(selectedFile.getParentFile(),
-				Config.getInstance().getAssetsFolderName() ), "main.js");
+				Config.getInstance().getSystemFolderName() ), "main.js");
 		
 		ScriptInterfaceImpl si = new ScriptInterfaceImpl(selectedFile);
 		

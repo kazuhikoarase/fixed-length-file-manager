@@ -37,7 +37,7 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	public Map<String, String> read(String formatFile) throws Exception {
 
 		File assetsFolder = new File(selectedFile.getParent(), 
-				Config.getInstance().getAssetsFolderName() );
+				Config.getInstance().getSystemFolderName() );
 		File file = new File(assetsFolder, formatFile);
 		RecordDef rd = new FormatLoader().load(file);
 
