@@ -6,6 +6,10 @@ import java.io.OutputStream;
 import flfm.model.FieldDef;
 import flfm.model.Record;
 
+/**
+ * FormatLoader
+ * @author Kazuhiko Arase
+ */
 public class RecordIO {
 
 	private RecordIO() {

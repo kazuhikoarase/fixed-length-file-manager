@@ -10,6 +10,10 @@ import javax.swing.text.PlainDocument;
 import flfm.model.FieldDef;
 import flfm.model.Record;
 
+/**
+ * DataEditor
+ * @author Kazuhiko Arase
+ */
 @SuppressWarnings("serial")
 public class DataEditor extends JTextField {
 	public DataEditor(Record record, FieldDef fd) {
@@ -26,6 +30,5 @@ public class DataEditor extends JTextField {
 			public void focusGained(FocusEvent e) {
 			}
 		} );
-		
 	}
 }
