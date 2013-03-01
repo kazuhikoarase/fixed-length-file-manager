@@ -59,7 +59,7 @@ Excel からコピー＆ペーストするとこの形式となります。
 
 = データ読み込み用スクリプト =
 
-データ読み込みはスクリプトインタフェース(si)のAPIを使用して、
+データ読み込みは[http://fixed-length-file-manager.googlecode.com/svn/assets/apidocs/flfm/scripting/IScriptInterface.html スクリプトインタフェース(si)のAPI]を使用して、
 レコード単位で行います。
 
 || peekRecord(引数：フォーマット定義ファイル名) || ファイル読み取り位置を変えずにデータを読み込む ||
