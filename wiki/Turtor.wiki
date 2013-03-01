@@ -14,20 +14,20 @@ FLFM でデータファイルを開くと、データと同階層の flfm/main.j
 
 {{{
 folder/
-       data-1.txt
-       data-2.txt
-            .
-            .
-            .
+       data1.txt
+       data2.txt
+          .
+          .
+          .
        flfm/
             main.js
             format1.txt
             format2.txt
             format3.txt
             format4.txt
-                 .
-                 .
-                 .
+               .
+               .
+               .
 }}}
 == フォーマット定義ファイル ==
 
