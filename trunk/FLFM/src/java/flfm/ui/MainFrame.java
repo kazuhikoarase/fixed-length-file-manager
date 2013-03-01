@@ -88,6 +88,7 @@ public class MainFrame extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 
 		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic('F');
 		menuBar.add(fileMenu);
 
 		Action openAction = new AbstractAction() {
@@ -101,6 +102,7 @@ public class MainFrame extends JFrame {
 			}
 		};
 		openAction.putValue(Action.NAME, "Open");
+		openAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_O);
 		fileMenu.add(openAction);
 
 		Action saveAction = new AbstractAction() {
@@ -114,6 +116,7 @@ public class MainFrame extends JFrame {
 			}
 		};
 		saveAction.putValue(Action.NAME, "Save");
+		saveAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_S);
 		saveAction.putValue(Action.ACCELERATOR_KEY,
 			KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK) );
 		fileMenu.add(saveAction);
@@ -129,6 +132,7 @@ public class MainFrame extends JFrame {
 			}
 		};
 		saveAsAction.putValue(Action.NAME, "Save As");
+		saveAsAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
 		fileMenu.add(saveAsAction);
 
 		Action exitAction = new AbstractAction() {
@@ -142,12 +146,17 @@ public class MainFrame extends JFrame {
 			}
 		};
 		exitAction.putValue(Action.NAME, "Exit");
+		exitAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_X);
 		fileMenu.add(exitAction);
 
 		setJMenuBar(menuBar);
 
+		String folder = Config.getInstance().getCurrentFolder();
+		
 		chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("sample") );
+		if (folder != null) {
+			chooser.setCurrentDirectory(new File(folder) );
+		}
 		chooser.setFileFilter(new FileFilter() {
 			
 			@Override
@@ -317,6 +326,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void exit() throws Exception {
+		
 		if (modified) {
 			int ret = JOptionPane.showConfirmDialog(this, 
 				"'" + selectedFile.getName() +
@@ -328,6 +338,12 @@ public class MainFrame extends JFrame {
 				save();
 			}
 		}
+		
+		// store settings
+		Config.getInstance().setCurrentFolder(
+			chooser.getCurrentDirectory().getAbsolutePath() );
+		Config.getInstance().store();
+
 		System.exit(0);
 	}
 	

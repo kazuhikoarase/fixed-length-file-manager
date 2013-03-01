@@ -1,0 +1,36 @@
+<project basedir="../" default="all">
+
+	<property name="build" location="build" />
+	<property name="src" location="src" />
+	<property name="dist" location="dist" />
+
+	<target name="all">
+
+		<mkdir dir="${dist}"/>
+		<tstamp>
+			<format property="timestamp" pattern="yyyyMMddHHmm" />
+		</tstamp>
+		<property name="app.name" value="FLFM-v${timestamp}" />
+		<property name="jar.name" value="FLFM.jar" />
+		
+		<jar jarfile="${dist}/${jar.name}" 
+				manifest="${src}/assets/MANIFEST.MF">
+			<fileset dir="${build}/java">
+				<include name="**/*" />
+			</fileset>
+		</jar>
+		
+		<zip zipfile="${dist}/${app.name}.zip">
+			<zipfileset dir="${dist}" prefix="${app.name}">
+				<include name="${jar.name}"/>
+			</zipfileset>
+			<zipfileset dir="${src}/assets" prefix="${app.name}">
+				<include name="README.txt"/>
+			</zipfileset>
+			<zipfileset dir="${src}/sample" prefix="${app.name}/sample">
+				<include name="**/*"/>
+			</zipfileset>
+		</zip>
+
+	</target>
+</project>
