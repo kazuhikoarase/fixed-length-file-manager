@@ -22,7 +22,7 @@
         var fileType = record.get('FILE_TYPE');
         
         if (fileType == 'D') {
-    
+
             // ※ 同じレコード長のフォーマットを、任意の項目の値によって切り替える例です。
             
             // データ部の場合
@@ -43,7 +43,7 @@
             break;
     
         } else {
-            throw 'illegal type:' + fileType; 
+            throw 'illegal type:' + fileType;
         }
     }
 
