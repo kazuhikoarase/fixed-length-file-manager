@@ -38,8 +38,8 @@ public class FormatLoader {
 				throw new IOException("format not found.");
 			}
 			ScriptEngineManager manager = new ScriptEngineManager();
-	        ScriptEngine engine = manager.getEngineByName("ECMAScript");
-	        engine.eval("var opts = " + firstLine);
+			ScriptEngine engine = manager.getEngineByName("ECMAScript");
+			engine.eval("var opts = " + firstLine);
 			int nameIndex = toInt(engine.eval("opts.name") );
 			int commentIndex = toInt(engine.eval("opts.comment") );
 			int descriptionIndex = toInt(engine.eval("opts.description") );
@@ -50,13 +50,20 @@ public class FormatLoader {
 			
 			List<FieldDef> fields = new ArrayList<FieldDef>();
 
+			StringBuilder buf = new StringBuilder();
 			String line;
 			while ( (line = in.readLine() ) != null) {
 				line = Util.rtrim(line);
 				if (line.length() == 0) {
 					continue;
 				}
-				String[] cols = Util.strictSplit(line, '\t');
+				buf.append(line);
+				buf.append("\n");
+			}
+			
+			List<List<String>> data =
+					new CSVReader().toDataArray(buf.toString() );
+			for (List<String> cols : data) {
 				FieldDef fd = new FieldDef();
 				fd.setName(getColumn(cols, nameIndex) );
 				fd.setComment(getColumn(cols, commentIndex) );
@@ -65,7 +72,7 @@ public class FormatLoader {
 				fd.setSize(Integer.parseInt(getColumn(cols, sizeIndex) ) );
 				fields.add(fd);
 			}
-		
+
 			RecordDef rd = new RecordDef();
 			rd.setName(file.getName() );
 			rd.setEncoding(encoding);
@@ -84,7 +91,7 @@ public class FormatLoader {
 		return -1;
 	}
 	
-	private String getColumn(String[] cols, int column) {
-		return (0 <= column && column < cols.length)? cols[column] : "";
+	private String getColumn(List<String> cols, int column) {
+		return (0 <= column && column < cols.size() )? cols.get(column) : "";
 	}
 }

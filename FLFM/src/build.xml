@@ -26,6 +26,7 @@
 				manifest="${src}/assets/MANIFEST.MF">
 			<fileset dir="${build}/java">
 				<include name="**/*" />
+				<exclude name="**/*Test*" />
 			</fileset>
 		</jar>
 		
