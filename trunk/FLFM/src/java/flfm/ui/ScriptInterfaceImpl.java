@@ -3,6 +3,7 @@ package flfm.ui;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.io.Reader;
@@ -33,15 +34,29 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	private RandomAccessFile raf;
 	private List<Record> recordList;
 	
-	public ScriptInterfaceImpl(File baseDir, ScriptEngine engine, File selectedFile) 
+	public ScriptInterfaceImpl(ScriptEngine engine, File selectedFile) 
 	throws Exception {
 		this.engine = engine;
 		this.selectedFile = selectedFile;
 		this.raf = new RandomAccessFile(selectedFile, "r");
 		this.recordList = new ArrayList<Record>();
-		engine.put(CURRENT_DIR, baseDir);
+		engine.put(CURRENT_DIR, getBaseDir() );
 	}
 
+	private File getBaseDir() throws Exception {
+		File dir = selectedFile.getParentFile();
+		while (dir != null) {
+			File baseDir = new File(dir,
+				Config.getInstance().getSystemFolderName() );
+			if (baseDir.exists() ) {
+				return baseDir;
+			}
+			// 親フォルダを探す
+			dir = dir.getParentFile();
+		}
+		throw new IOException("base dir not found.");
+	}
+	
 	public Object evalfile(String path) throws Exception {
 		final File currentDir = (File)engine.get(CURRENT_DIR);
 		final File srcFile = new File(currentDir, path);
@@ -102,25 +117,24 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	private Map<String, String> readImpl(String formatFile, boolean peek)
 	throws Exception {
 
-		long pos = raf.getFilePointer();
+		final File currentDir = (File)engine.get(CURRENT_DIR);
+		final long pos = raf.getFilePointer();
 
-		File assetsFolder = new File(selectedFile.getParent(), 
-				Config.getInstance().getSystemFolderName() );
-		File file = new File(assetsFolder, formatFile);
-		RecordDef rd = new FormatLoader().load(file);
+		final File file = new File(currentDir, formatFile);
+		final RecordDef rd = new FormatLoader().load(file);
 
-		Map<String,String> map = new HashMap<String, String>();
-		List<String> dataList = new ArrayList<String>();
+		final Map<String,String> map = new HashMap<String, String>();
+		final List<String> dataList = new ArrayList<String>();
 		for (FieldDef field : rd.getFields() ) {
-			byte[] b = new byte[field.getSize()];
+			final byte[] b = new byte[field.getSize()];
 			raf.readFully(b);
-			String data = new String(b, rd.getEncoding() );
+			final String data = new String(b, rd.getEncoding() );
 			map.put(field.getName(), data);
 			dataList.add(data);
 		}
 
 		if (!peek) {
-			Record record = new Record();
+			final Record record = new Record();
 			record.setRecordDef(rd);
 			record.setDataList(dataList);
 			recordList.add(record);
