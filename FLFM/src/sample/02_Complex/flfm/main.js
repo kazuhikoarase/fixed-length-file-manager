@@ -3,7 +3,9 @@
 //
 !function() {
 
-    trace('start');
+    si.trace('start');
+    
+    si.evalfile('sub.js');
 
     // ƒŒƒR[ƒh
     var record;
@@ -47,6 +49,6 @@
         }
     }
 
-    trace('end');
+    si.trace('end');
 
 }();

@@ -1,11 +1,17 @@
 package flfm.ui;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.script.ScriptEngine;
 
 import flfm.core.Config;
 import flfm.io.FormatLoader;
@@ -20,17 +26,45 @@ import flfm.scripting.IScriptInterface;
  */
 public class ScriptInterfaceImpl implements IScriptInterface {
 
+	private static final String CURRENT_DIR = "__current_dir__";
+	
+	private File baseDir;
+	private ScriptEngine engine;
 	private File selectedFile;
 	private RandomAccessFile raf;
 	private List<Record> recordList;
 	
-	public ScriptInterfaceImpl(File selectedFile) 
+	public ScriptInterfaceImpl(File baseDir, ScriptEngine engine, File selectedFile) 
 	throws Exception {
+		this.baseDir = baseDir;
+		this.engine = engine;
 		this.selectedFile = selectedFile;
 		this.raf = new RandomAccessFile(selectedFile, "r");
 		this.recordList = new ArrayList<Record>();
+		engine.put(CURRENT_DIR, baseDir);
 	}
 
+	public Object evalfile(String path) throws Exception {
+		File currentDir = (File)engine.get(CURRENT_DIR);
+		File srcFile = new File(currentDir, path);
+		Reader in = new BufferedReader(new InputStreamReader(
+			new FileInputStream(srcFile), 
+			Config.getInstance().getResourceEncoding() ) );
+		try {
+			engine.put(CURRENT_DIR, srcFile.getParentFile() );
+			engine.put(ScriptEngine.FILENAME, srcFile.getAbsolutePath() );
+			Object retval = engine.eval(in);
+			engine.put(CURRENT_DIR, currentDir);
+			return retval;
+		} finally {
+			in.close();
+		}
+	}
+
+	public void trace(Object msg) throws Exception {
+		System.out.println(msg);
+	}
+	
 	public File getDataFile() throws Exception {
 		return selectedFile;
 	}

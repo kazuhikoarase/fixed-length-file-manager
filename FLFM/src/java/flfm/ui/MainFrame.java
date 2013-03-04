@@ -6,13 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -209,30 +205,17 @@ public class MainFrame extends JFrame {
 
 	private void open(File selectedFile) throws Exception {
 	
-		File mainJs = new File(new File(selectedFile.getParentFile(),
-				Config.getInstance().getSystemFolderName() ), "main.js");
-		
-		ScriptInterfaceImpl si = new ScriptInterfaceImpl(selectedFile);
-		
+		File baseDir = new File(selectedFile.getParentFile(),
+				Config.getInstance().getSystemFolderName() );
+
+    	ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("ECMAScript");
+
+		ScriptInterfaceImpl si = new ScriptInterfaceImpl(
+			baseDir, engine, selectedFile);
 		try {
-
-	    	ScriptEngineManager manager = new ScriptEngineManager();
-	        ScriptEngine engine = manager.getEngineByName("ECMAScript");
-
-	        engine.eval("var trace = function(msg) {" +
-        		"java.lang.System.out.println('' + msg);};");
-	        
-			Reader in = new BufferedReader(new InputStreamReader(
-					new FileInputStream(mainJs), 
-					Config.getInstance().getResourceEncoding() ) );
-			try {
-				engine.put(ScriptEngine.FILENAME, mainJs.getAbsolutePath() );
-				engine.put("si", si);
-				engine.eval(in);
-			} finally {
-				in.close();
-			}
-
+			engine.put("si", si);
+			si.evalfile("main.js");
 		} finally {
 			si.dispose();
 		}
