@@ -28,7 +28,6 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 
 	private static final String CURRENT_DIR = "__current_dir__";
 	
-	private File baseDir;
 	private ScriptEngine engine;
 	private File selectedFile;
 	private RandomAccessFile raf;
@@ -36,7 +35,6 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	
 	public ScriptInterfaceImpl(File baseDir, ScriptEngine engine, File selectedFile) 
 	throws Exception {
-		this.baseDir = baseDir;
 		this.engine = engine;
 		this.selectedFile = selectedFile;
 		this.raf = new RandomAccessFile(selectedFile, "r");
@@ -45,15 +43,15 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	}
 
 	public Object evalfile(String path) throws Exception {
-		File currentDir = (File)engine.get(CURRENT_DIR);
-		File srcFile = new File(currentDir, path);
-		Reader in = new BufferedReader(new InputStreamReader(
+		final File currentDir = (File)engine.get(CURRENT_DIR);
+		final File srcFile = new File(currentDir, path);
+		final Reader in = new BufferedReader(new InputStreamReader(
 			new FileInputStream(srcFile), 
 			Config.getInstance().getResourceEncoding() ) );
 		try {
 			engine.put(CURRENT_DIR, srcFile.getParentFile() );
 			engine.put(ScriptEngine.FILENAME, srcFile.getAbsolutePath() );
-			Object retval = engine.eval(in);
+			final Object retval = engine.eval(in);
 			engine.put(CURRENT_DIR, currentDir);
 			return retval;
 		} finally {
