@@ -10,6 +10,20 @@ import java.util.Map;
 public interface IScriptInterface {
 
 	/**
+	 * バイト数を指定して文字列(ISO-8859-1)を読み込む
+	 * @param lengthInBytes バイト数
+	 * @return 読み込んだ文字列
+	 */
+	String readString(int lengthInBytes) throws Exception;
+
+	/**
+	 * バイト数を指定して文字列(ISO-8859-1)を読み込む(ファイルの読み取り位置は変わりません)
+	 * @param lengthInBytes バイト数
+	 * @return 読み込んだ文字列
+	 */
+	String peekString(int lengthInBytes) throws Exception;
+
+	/**
 	 * 指定されたフォーマットのレコードを読み込む
 	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
