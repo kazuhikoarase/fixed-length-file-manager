@@ -36,6 +36,9 @@
 			<zipfileset dir="${src}/assets" prefix="${app.name}">
 				<include name="README.txt"/>
 			</zipfileset>
+			<zipfileset dir="${dist}/apidocs" prefix="${app.name}/apidocs">
+				<include name="**/*"/>
+			</zipfileset>
 			<zipfileset dir="${src}/sample" prefix="${app.name}/sample">
 				<include name="**/*"/>
 			</zipfileset>
