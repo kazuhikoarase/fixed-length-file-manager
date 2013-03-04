@@ -1,5 +1,6 @@
 package flfm.scripting;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -45,4 +46,10 @@ public interface IScriptInterface {
 	 * @return
 	 */
 	public boolean isEOF() throws Exception;
+	
+	/**
+	 * 現在のデータファイルを取得する。
+	 * @return
+	 */
+	public File getDataFile() throws Exception;
 }

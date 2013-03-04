@@ -30,6 +30,10 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 		this.raf = new RandomAccessFile(selectedFile, "r");
 		this.recordList = new ArrayList<Record>();
 	}
+
+	public File getDataFile() throws Exception {
+		return selectedFile;
+	}
 	
 	public void dispose() throws Exception {
 		raf.close();
