@@ -29,8 +29,6 @@ folder/
             main.js
             format1.txt
             format2.txt
-            format3.txt
-            format4.txt
                .
                .
                .
