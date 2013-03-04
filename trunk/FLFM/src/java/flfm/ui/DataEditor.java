@@ -1,5 +1,6 @@
 package flfm.ui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -30,5 +31,11 @@ public class DataEditor extends JTextField {
 			public void focusGained(FocusEvent e) {
 			}
 		} );
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension ps = super.getPreferredSize();
+		return new Dimension(ps.width + 2, ps.height);
 	}
 }
