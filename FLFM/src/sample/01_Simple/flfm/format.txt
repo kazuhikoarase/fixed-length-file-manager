@@ -1,0 +1,3 @@
+{name: 21, comment: 1, description: 20, type: 16, size: 17}
+1	æˆøæƒR[ƒh															Z	8				CUST_CD
+2	æˆøæ–¼															Z	12				CUST_NAME
