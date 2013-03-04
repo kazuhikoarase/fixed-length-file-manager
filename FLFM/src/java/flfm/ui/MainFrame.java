@@ -204,15 +204,12 @@ public class MainFrame extends JFrame {
 	}
 
 	private void open(File selectedFile) throws Exception {
-	
-		File baseDir = new File(selectedFile.getParentFile(),
-				Config.getInstance().getSystemFolderName() );
 
-    	ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("ECMAScript");
+		ScriptEngineManager manager = new ScriptEngineManager();
+		ScriptEngine engine = manager.getEngineByName("ECMAScript");
 
 		ScriptInterfaceImpl si = new ScriptInterfaceImpl(
-			baseDir, engine, selectedFile);
+				engine, selectedFile);
 		try {
 			engine.put("si", si);
 			si.evalfile("main.js");
