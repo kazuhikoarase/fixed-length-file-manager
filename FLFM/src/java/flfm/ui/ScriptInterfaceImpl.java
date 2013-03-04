@@ -114,6 +114,19 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 		return readImpl(formatFile, true);
 	}
 
+	public String peekString(int lengthInBytes) throws Exception {
+		final long pos = raf.getFilePointer();
+		String s = readString(lengthInBytes);
+		raf.seek(pos);
+		return s;
+	}
+
+	public String readString(int lengthInBytes) throws Exception {
+		final byte[] b = new byte[lengthInBytes];
+		raf.readFully(b);
+		return new String(b, "ISO-8859-1");
+	}
+
 	private Map<String, String> readImpl(String formatFile, boolean peek)
 	throws Exception {
 

@@ -56,6 +56,9 @@ public class FormatLoader {
 				line = Util.rtrim(line);
 				if (line.length() == 0) {
 					continue;
+				} else 	if (line.startsWith("#") ) {
+					// コメント行とみなす。
+					continue;
 				}
 				buf.append(line);
 				buf.append("\n");
