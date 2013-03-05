@@ -1,17 +1,20 @@
 package flfm.model;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Record
  * @author Kazuhiko Arase
  */
 public class Record {
+	
+	public static final String RECORD_NAME = "__RECORD_NAME__";
+	
 	private String name = "";
 	private int nest = 0;
 	private boolean leaf = true;
 	private RecordDef recordDef = null;
-	private List<String> dataList = null;
+	private Map<String, String> dataMap = null;
 	public String getName() {
 		return name;
 	}
@@ -36,11 +39,11 @@ public class Record {
 	public void setRecordDef(RecordDef recordDef) {
 		this.recordDef = recordDef;
 	}
-	public List<String> getDataList() {
-		return dataList;
+	public Map<String, String> getDataMap() {
+		return dataMap;
 	}
-	public void setDataList(List<String> dataList) {
-		this.dataList = dataList;
+	public void setDataMap(Map<String, String> dataMap) {
+		this.dataMap = dataMap;
 	}
 	public String toString() {
 		if (name == null) {
