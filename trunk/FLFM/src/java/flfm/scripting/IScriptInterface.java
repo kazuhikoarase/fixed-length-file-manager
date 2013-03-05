@@ -79,4 +79,7 @@ public interface IScriptInterface {
 	 * @param msg メッセージ
 	 */
 	void trace(Object msg) throws Exception;
+	
+	void beginNest();
+	void endNest();
 }

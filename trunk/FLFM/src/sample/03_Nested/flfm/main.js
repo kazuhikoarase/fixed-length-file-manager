@@ -15,5 +15,6 @@
     si.endNest();
     si.endNest();
     si.endNest();
+    si.readString(2);
     si.readRecord('ƒtƒbƒ^.txt');
 }();

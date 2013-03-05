@@ -79,6 +79,7 @@ public class FormatLoader {
 			RecordDef rd = new RecordDef();
 			rd.setName(file.getName() );
 			rd.setEncoding(encoding);
+			rd.setVisible(true);
 			rd.setFields(fields);
 			return rd;
 

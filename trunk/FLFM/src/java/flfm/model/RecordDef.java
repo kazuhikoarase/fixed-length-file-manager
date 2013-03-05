@@ -9,6 +9,7 @@ import java.util.List;
 public class RecordDef {
 	private String name;
 	private String encoding;
+	private boolean visible;
 	private List<FieldDef> fields;
 	public String getName() {
 		return name;
@@ -21,6 +22,12 @@ public class RecordDef {
 	}
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
+	}
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 	public List<FieldDef> getFields() {
 		return fields;
