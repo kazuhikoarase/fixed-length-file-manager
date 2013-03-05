@@ -9,7 +9,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -105,6 +104,22 @@ public class MainFrame extends JFrame {
 		openAction.putValue(Action.NAME, "Open");
 		openAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_O);
 		fileMenu.add(openAction);
+
+		Action reopenAction = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					reopen();
+				} catch(Exception ex) {
+					handleException(ex);
+				}
+			}
+		};
+		reopenAction.putValue(Action.NAME, "Reopen");
+		reopenAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
+		reopenAction.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0) );
+		fileMenu.add(reopenAction);
 
 		Action saveAction = new AbstractAction() {
 			@Override
@@ -218,7 +233,13 @@ public class MainFrame extends JFrame {
 		}
 		open(chooser.getSelectedFile() );
 	}
-
+	
+	private void reopen() throws Exception {
+		if (selectedFile != null) {
+			open(selectedFile);
+		}
+	}
+	
 	private void open(File selectedFile) throws Exception {
 
 		ScriptEngineManager manager = new ScriptEngineManager();
@@ -265,9 +286,7 @@ public class MainFrame extends JFrame {
 
 		SimpleTreeNode currNode = root;
 		SimpleTreeNode lastNode = null;
-		List<Integer> seqNum = new ArrayList<Integer>();
-		seqNum.add(Integer.valueOf(0) );
-		
+
 		for (int r = 0; r < recordList.size(); r += 1) {
 
 			Record record = recordList.get(r);
@@ -281,24 +300,19 @@ public class MainFrame extends JFrame {
 				if (record.getNest() > lastRecord.getNest() ) {
 					// nest down
 					currNode = lastNode;
-					seqNum.add(Integer.valueOf(0) );
 				} else if (record.getNest() < lastRecord.getNest() ) {
 					// nest up
 					int n = lastRecord.getNest() - record.getNest();
 					while (n > 0) {
 						currNode = (SimpleTreeNode)currNode.getParent();
 						n -= 1;
-						seqNum.remove(seqNum.size() - 1);
 					}
 				}
 			}
 
-			// count up
-			int last = seqNum.size() - 1;
-			seqNum.set(last, seqNum.get(last) + 1);
-			
-			record.setName("[" + seqNum.get(last) + "] " + 
-				record.getRecordDef().getName().replaceAll("\\..*$", "") );
+			String recordName = record.getDataMap().get(Record.RECORD_NAME);
+			record.setName(recordName);
+
 			SimpleTreeNode node = new SimpleTreeNode(record);
 			node.setLeaf(record.isLeaf() );
 			currNode.addChild(node);

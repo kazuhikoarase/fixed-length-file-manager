@@ -6,7 +6,8 @@
 	trace(s);
     si.readRecord('ヘッダ.txt');
     si.beginNest();
-    si.readRecord('データ1.txt');
+    var r = si.readRecord('データ1.txt');
+    r.put('__RECORD_NAME__', 'カスタムレコード名');
     si.beginNest();
     si.readRecord('データ1.txt');
     si.beginNest();

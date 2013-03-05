@@ -1,6 +1,7 @@
 package flfm.ui;
 
 import java.awt.Font;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import flfm.core.Config;
 import flfm.model.FieldDef;
 import flfm.model.Record;
 
@@ -86,7 +88,8 @@ public class RecordEditor extends JComponent {
 			if (fd.getDescription().length() > 0) {
 				tf.setToolTipText(fd.getDescription() );
 			}
-			tf.setText(model.getDataList().get(i) );
+			tf.setName(fd.getName() );
+			tf.setText(model.getDataMap().get(fd.getName() ) );
 			tf.select(0, 0);
 			tf.getDocument().addDocumentListener(documentListenerDlg);
 
@@ -113,17 +116,26 @@ public class RecordEditor extends JComponent {
 	private void updateModel() {
 		for (int i = 0; i < model.getRecordDef().getFields().size(); i += 1) {
 			JTextField tf = fieldEditors.get(i);
-			model.getDataList().set(i, tf.getText() );
+			model.getDataMap().put(tf.getName(), tf.getText() );
 		}		
 	}
 
-	private JLabel createLabel(String text, int align) {
-		JLabel label = new JLabel(text, align);
+	private JTextField createLabel(String text, int align) {
+		JTextField label = new JTextField();
+		label.setHorizontalAlignment(align);
 		label.setFont(new Font("sansserif", Font.PLAIN, 12) );
+		try {
+			label.setColumns(text.getBytes("Shift_JIS").length + 1);
+		} catch(UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		label.setEditable(false);
+		label.setBorder(null);
+		label.setText(text);
 		return label;
 	}
 	
-	private JLabel createLabel(String text) {
+	private JTextField createLabel(String text) {
 		return createLabel(text, SwingConstants.LEFT);
 	}
 }

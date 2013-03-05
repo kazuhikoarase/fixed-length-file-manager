@@ -169,28 +169,29 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 
 		final long pos = raf.getFilePointer();
 		
-		final Map<String,String> map = new HashMap<String, String>();
-		final List<String> dataList = new ArrayList<String>();
+		final Map<String,String> dataMap = new HashMap<String, String>();
+
+		dataMap.put(Record.RECORD_NAME,
+			rd.getName().replaceAll("\\..*$", "") );
 
 		for (FieldDef field : rd.getFields() ) {
 			final byte[] b = new byte[field.getSize()];
 			raf.readFully(b);
 			final String data = new String(b, rd.getEncoding() );
-			map.put(field.getName(), data);
-			dataList.add(data);
+			dataMap.put(field.getName(), data);
 		}
 
 		if (!peek) {
 			final Record record = new Record();
 			record.setRecordDef(rd);
-			record.setDataList(dataList);
+			record.setDataMap(dataMap);
 			record.setNest(nest);
 			recordList.add(record);
 		} else {
 			raf.seek(pos);
 		}
 		
-		return map;
+		return dataMap;
 	}
 
 	public void beginNest() {
