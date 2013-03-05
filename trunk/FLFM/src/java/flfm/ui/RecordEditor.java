@@ -1,7 +1,6 @@
 package flfm.ui;
 
 import java.awt.Font;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import flfm.core.Config;
 import flfm.model.FieldDef;
 import flfm.model.Record;
 
@@ -120,22 +118,13 @@ public class RecordEditor extends JComponent {
 		}		
 	}
 
-	private JTextField createLabel(String text, int align) {
-		JTextField label = new JTextField();
-		label.setHorizontalAlignment(align);
+	private JLabel createLabel(String text, int align) {
+		JLabel label = new JLabel(text, align);
 		label.setFont(new Font("sansserif", Font.PLAIN, 12) );
-		try {
-			label.setColumns(text.getBytes("Shift_JIS").length + 1);
-		} catch(UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-		label.setEditable(false);
-		label.setBorder(null);
-		label.setText(text);
 		return label;
 	}
 	
-	private JTextField createLabel(String text) {
+	private JLabel createLabel(String text) {
 		return createLabel(text, SwingConstants.LEFT);
 	}
 }
