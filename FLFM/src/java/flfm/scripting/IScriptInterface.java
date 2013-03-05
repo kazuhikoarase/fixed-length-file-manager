@@ -79,7 +79,14 @@ public interface IScriptInterface {
 	 * @param msg メッセージ
 	 */
 	void trace(Object msg) throws Exception;
-	
+
+	/**
+	 * レコードのネストを開始する
+	 */
 	void beginNest();
+
+	/**
+	 * レコードのネストを終了する
+	 */
 	void endNest();
 }
