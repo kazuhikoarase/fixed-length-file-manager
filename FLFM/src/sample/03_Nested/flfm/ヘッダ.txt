@@ -1,0 +1,3 @@
+{name: 21, comment: 1, description: 20, type: 16, size: 17}
+1	ファイル種別															Z	1			H:ヘッダ/D:データ/F:フッタ	FILE_TYPE
+2	備考															Z	20				COMMENT
