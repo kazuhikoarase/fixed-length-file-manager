@@ -9,33 +9,36 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import flfm.core.Config;
 import flfm.io.RecordIO;
 import flfm.model.Record;
+import flfm.model.SimpleTreeNode;
 
 /**
  * MainFrame
@@ -46,7 +49,9 @@ public class MainFrame extends JFrame {
 
 	private JSplitPane splitPane = null;
 
-	private JList list = null;
+	private List<Record> recordList = null;
+	
+	private JTree tree = null;
 	
 	private JFileChooser chooser = null;
 	
@@ -172,21 +177,32 @@ public class MainFrame extends JFrame {
 			}
 		} );
 
-		list = new JList();
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.addListSelectionListener(new ListSelectionListener() {
+		tree = new JTree();
+		tree.setRootVisible(false);
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.addTreeSelectionListener(new TreeSelectionListener() {
+			
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				Record record = (Record)list.getSelectedValue();
-				if (record != null) {
-					selectRecord(record);
+			public void valueChanged(TreeSelectionEvent e) {
+				TreePath path = tree.getSelectionPath();
+				if (path == null) {
+					return;
 				}
+				SimpleTreeNode node = (SimpleTreeNode)path.getLastPathComponent();
+				Record record = (Record)node.getUserObject();
+				if (record == null) {
+					return;
+				}
+				selectRecord(record);
 			}
 		});
+		tree.setModel(new DefaultTreeModel(new SimpleTreeNode() ) );
+
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setDividerLocation(200);
 		splitPane.setDividerSize(4);
-		splitPane.setLeftComponent(new JScrollPane(list) );
+		splitPane.setLeftComponent(new JScrollPane(tree) );
 		splitPane.setRightComponent(new JPanel() );
 		
 		getContentPane().add(splitPane);
@@ -219,7 +235,7 @@ public class MainFrame extends JFrame {
 
 		this.selectedFile = selectedFile;
 		updateTitle();
-		updateRecordList(si.getRecordList() );
+		setRecordList(si.getRecordList() );
 	}
 
 	private void updateTitle() {
@@ -240,19 +256,58 @@ public class MainFrame extends JFrame {
 		updateTitle();
 	}
 	
-	private void updateRecordList(List<Record> recordList) {
+	private void setRecordList(List<Record> recordList) {
 		
-		DefaultListModel listModel = new DefaultListModel();
+		this.recordList = recordList;
+		
+		SimpleTreeNode root = new SimpleTreeNode();
+		root.setLeaf(false);
+
+		SimpleTreeNode currNode = root;
+		SimpleTreeNode lastNode = null;
+		List<Integer> seqNum = new ArrayList<Integer>();
+		seqNum.add(Integer.valueOf(0) );
+		
 		for (int r = 0; r < recordList.size(); r += 1) {
+
 			Record record = recordList.get(r);
-			record.setName("[" + (r + 1) + "] " + 
+
+			if (!record.getRecordDef().isVisible() ) {
+				continue;
+			}
+
+			if (lastNode != null) {
+				Record lastRecord = (Record)lastNode.getUserObject();
+				if (record.getNest() > lastRecord.getNest() ) {
+					// nest down
+					currNode = lastNode;
+					seqNum.add(Integer.valueOf(0) );
+				} else if (record.getNest() < lastRecord.getNest() ) {
+					// nest up
+					int n = lastRecord.getNest() - record.getNest();
+					while (n > 0) {
+						currNode = (SimpleTreeNode)currNode.getParent();
+						n -= 1;
+						seqNum.remove(seqNum.size() - 1);
+					}
+				}
+			}
+
+			// count up
+			int last = seqNum.size() - 1;
+			seqNum.set(last, seqNum.get(last) + 1);
+			
+			record.setName("[" + seqNum.get(last) + "] " + 
 				record.getRecordDef().getName().replaceAll("\\..*$", "") );
-			listModel.addElement(record);
+			SimpleTreeNode node = new SimpleTreeNode(record);
+			node.setLeaf(record.isLeaf() );
+			currNode.addChild(node);
+			lastNode = node;
 		}
 
-		list.setModel(listModel);
-		if (recordList.size() > 0) {
-			list.setSelectedIndex(0);
+		tree.setModel(new DefaultTreeModel(root) );
+		if (tree.getRowCount() > 0) {
+			tree.setSelectionRow(0);
 		}
 	}
 	
@@ -292,8 +347,7 @@ public class MainFrame extends JFrame {
 		OutputStream out = new BufferedOutputStream(
 				new FileOutputStream(file) );
 		try {
-			for (int i = 0; i < list.getModel().getSize(); i += 1) {
-				Record record = (Record)list.getModel().getElementAt(i);
+			for (Record record : recordList) {
 				RecordIO.writeRecord(out, record);
 			}
 		} finally {
