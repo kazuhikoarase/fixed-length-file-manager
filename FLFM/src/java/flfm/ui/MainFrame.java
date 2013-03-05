@@ -1,6 +1,9 @@
 package flfm.ui;
 
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -36,7 +39,9 @@ import javax.swing.tree.TreeSelectionModel;
 
 import flfm.core.Config;
 import flfm.io.RecordIO;
+import flfm.model.FieldDef;
 import flfm.model.Record;
+import flfm.model.RecordDef;
 import flfm.model.SimpleTreeNode;
 
 /**
@@ -56,6 +61,8 @@ public class MainFrame extends JFrame {
 	
 	private File selectedFile = null;
 
+	private Record selectedRecord = null;
+	
 	private boolean modified = false;
 	
 	private DocumentListener documentListener = new DocumentListener() {
@@ -165,6 +172,25 @@ public class MainFrame extends JFrame {
 		exitAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_X);
 		fileMenu.add(exitAction);
 
+		
+		JMenu editMenu = new JMenu("Edit");
+		editMenu.setMnemonic('E');
+		menuBar.add(editMenu);
+
+		Action copyRecordAction = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					copyRecord();
+				} catch(Exception ex) {
+					handleException(ex);
+				}
+			}
+		};
+		copyRecordAction.putValue(Action.NAME, "Copy Record");
+		copyRecordAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
+		editMenu.add(copyRecordAction);
+		
 		setJMenuBar(menuBar);
 
 		String folder = Config.getInstance().getCurrentFolder();
@@ -338,6 +364,8 @@ public class MainFrame extends JFrame {
 		int lastLoc = splitPane.getDividerLocation();
 		splitPane.setRightComponent(new JScrollPane(panel) );
 		splitPane.setDividerLocation(lastLoc);
+		
+		selectedRecord = record;
 	}
 	
 	public void save() throws Exception {
@@ -394,11 +422,42 @@ public class MainFrame extends JFrame {
 
 		System.exit(0);
 	}
-	
+	private void copyRecord() throws Exception {
+		if (selectedRecord == null) {
+			return;
+		}
+		RecordDef rd = selectedRecord.getRecordDef();
+		
+		StringBuilder buf = new StringBuilder();
+
+		buf.append("No.\tName\tComment\tType\tSize\tContent\r\n");
+
+		int lineNo = 0;
+		for (FieldDef fd : rd.getFields() ) {
+			lineNo += 1;
+			buf.append(lineNo);
+			buf.append('\t');
+			buf.append(fd.getName() );
+			buf.append('\t');
+			buf.append(fd.getComment() );
+			buf.append('\t');
+			buf.append(fd.getType() );
+			buf.append('\t');
+			buf.append(fd.getSize() );
+			buf.append('\t');
+			buf.append(selectedRecord.getDataMap().get(fd.getName() ) );
+			buf.append('\r');
+			buf.append('\n');
+		}
+
+		Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+		StringSelection ss = new StringSelection(buf.toString() );
+		cb.setContents(ss, ss);
+	}
 	private void handleException(Exception e) {
+		e.printStackTrace();
 		JOptionPane.showMessageDialog(
 			this, e.getMessage(), "Error",
 			JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
 	}
 }
