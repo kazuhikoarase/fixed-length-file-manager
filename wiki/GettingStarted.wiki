@@ -90,7 +90,7 @@ Excel からコピー＆ペーストすると、この形式となります。
 {{{
 !function() {
 
-    si.trace('start');
+    trace('start');
 
     // レコード
     var record;
@@ -134,7 +134,7 @@ Excel からコピー＆ペーストすると、この形式となります。
         }
     }
 
-    si.trace('end');
+    trace('end');
 
 }();
 }}}
