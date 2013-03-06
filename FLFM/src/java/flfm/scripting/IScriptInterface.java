@@ -10,28 +10,28 @@ import java.util.Map;
 public interface IScriptInterface {
 
 	/**
-	 * バイト数を指定して文字列(ISO-8859-1)を読み込む
+	 * バイト数を指定して文字列(ISO-8859-1)を読み込む。
 	 * @param lengthInBytes バイト数
 	 * @return 読み込んだ文字列
 	 */
 	String readString(int lengthInBytes) throws Exception;
 
 	/**
-	 * バイト数を指定して文字列(ISO-8859-1)を読み込む(ファイルの読み取り位置は変わりません)
+	 * バイト数を指定して文字列(ISO-8859-1)を読み込む(ファイルの読み取り位置は変わりません)。
 	 * @param lengthInBytes バイト数
 	 * @return 読み込んだ文字列
 	 */
 	String peekString(int lengthInBytes) throws Exception;
 
 	/**
-	 * 指定されたフォーマットのレコードを読み込む
+	 * 指定されたフォーマットのレコードを読み込む。
 	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
 	Map<String, String> readRecord(String recordFormatFile) throws Exception;
 
 	/**
-	 * 指定されたフォーマットのレコードを読み込む(ファイルの読み取り位置は変わりません)
+	 * 指定されたフォーマットのレコードを読み込む(ファイルの読み取り位置は変わりません)。
 	 * @param recordFormatFile レコードフォーマットファイル
 	 * @return 読み込んだデータ
 	 */
@@ -44,13 +44,13 @@ public interface IScriptInterface {
 	long getLength() throws Exception;
 
 	/**
-	 * 読み取り位置を取得する
+	 * 読み取り位置を取得する。
 	 * @return 読み取り位置
 	 */
 	long getPosition() throws Exception;
 	
 	/**
-	 * 読み取り位置を設定する
+	 * 読み取り位置を設定する。
 	 * @param position 読み取り位置
 	 */
 	void setPosition(long position) throws Exception;
@@ -68,25 +68,25 @@ public interface IScriptInterface {
 	File getDataFile() throws Exception;
 	
 	/**
-	 * スクリプトを実行する
+	 * スクリプトを実行する。
 	 * @param src ソース
 	 * @return 実行結果
 	 */
 	Object evalfile(String src) throws Exception;
 
 	/**
-	 * メッセージを出力する
+	 * メッセージを出力する。
 	 * @param msg メッセージ
 	 */
 	void trace(Object msg) throws Exception;
 
 	/**
-	 * レコードのネストを開始する
+	 * レコードのネストを開始する。
 	 */
-	void beginNest();
+	void beginNest() throws Exception;
 
 	/**
-	 * レコードのネストを終了する
+	 * レコードのネストを終了する。
 	 */
-	void endNest();
+	void endNest() throws Exception;
 }

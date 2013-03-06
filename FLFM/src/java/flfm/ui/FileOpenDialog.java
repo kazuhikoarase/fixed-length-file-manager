@@ -4,13 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
