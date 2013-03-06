@@ -1,6 +1,7 @@
 package flfm.ui;
 
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -267,7 +268,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void open(File selectedFile) throws Exception {
-
+/*
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByName("ECMAScript");
 
@@ -279,10 +280,20 @@ public class MainFrame extends JFrame {
 		} finally {
 			si.dispose();
 		}
-
+*/
+		Rectangle r = getBounds();
+		
+		FileOpenDialog dialog = new FileOpenDialog(this, selectedFile);
+		dialog.pack();
+		dialog.setLocation(r.x + (r.width - dialog.getWidth() ) / 2, r.x + (r.height - dialog.getHeight() ) / 2);
+		dialog.setVisible(true);
+		if (!dialog.isSuccess() ) {
+			return;
+		}
+		
 		this.selectedFile = selectedFile;
 		updateTitle();
-		setRecordList(si.getRecordList() );
+		setRecordList(dialog.getRecordList() );
 	}
 
 	private void updateTitle() {
@@ -422,6 +433,7 @@ public class MainFrame extends JFrame {
 
 		System.exit(0);
 	}
+
 	private void copyRecord() throws Exception {
 		if (selectedRecord == null) {
 			return;
@@ -454,6 +466,7 @@ public class MainFrame extends JFrame {
 		StringSelection ss = new StringSelection(buf.toString() );
 		cb.setContents(ss, ss);
 	}
+
 	private void handleException(Exception e) {
 		e.printStackTrace();
 		JOptionPane.showMessageDialog(

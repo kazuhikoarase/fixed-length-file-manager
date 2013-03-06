@@ -37,13 +37,18 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	private RandomAccessFile raf;
 	private List<Record> recordList;
 	private int nest;
+	private IProgressHandler handler;
 	
 	public ScriptInterfaceImpl(
 		ScriptEngine engine,
-		File selectedFile
+		File selectedFile,
+		IProgressHandler handler
 	) throws Exception {
+
 		this.engine = engine;
 		this.selectedFile = selectedFile;
+		this.handler = handler;
+		
 		this.raf = new RandomAccessFile(selectedFile, "r");
 		this.recordList = new ArrayList<Record>();
 		this.nest = 0;
@@ -119,6 +124,7 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 	public Map<String, String> readRecord(
 		String formatFile
 	) throws Exception {
+		updateProgress();
 		return read(loadRecordDef(formatFile), false);
 	}
 
@@ -207,4 +213,17 @@ public class ScriptInterfaceImpl implements IScriptInterface {
 			nest -= 1;
 		}
 	}
+	
+	private int progressCount = 0;
+
+	public void updateProgress() throws Exception {
+		if (progressCount % 100 == 0) {
+			handler.updateProgress(getPosition(), getLength() );
+		}
+		progressCount += 1;
+	}
+    
+	interface IProgressHandler {
+    	void updateProgress(double pos, double len);
+    }	
 }
