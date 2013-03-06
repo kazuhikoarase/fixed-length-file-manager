@@ -7,7 +7,7 @@ import javax.swing.tree.TreeNode;
 
 public class SimpleTreeNode implements TreeNode {
 
-	private static final Enumeration EMPTY = new Vector<Object>().elements();
+	private static final Enumeration<?> EMPTY = new Vector<Object>().elements();
 
 	private Object userObject = null;
 	private SimpleTreeNode parent = null;
@@ -34,7 +34,7 @@ public class SimpleTreeNode implements TreeNode {
 		}
 		children.add(treeNode);
 	}
-	public Enumeration children() {
+	public Enumeration<?> children() {
 		if (children == null) {
 			return EMPTY;
 		}

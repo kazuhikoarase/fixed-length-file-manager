@@ -15,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
